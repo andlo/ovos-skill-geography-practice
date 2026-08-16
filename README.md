@@ -70,3 +70,14 @@ as current fact - the same kind of honesty this project applied to
 
 ## Tags
 #geography #education #trivia #quiz #idea #design-doc
+
+## Shared pattern: teach-then-practice
+
+Once proven, this skill should adopt the "teach, then quiz on what was
+taught" pattern being designed on `ovos-skill-math-practice`
+(see [issue #1](https://github.com/andlo/ovos-skill-math-practice/issues/1))
+rather than only quizzing on arbitrary generated facts the user was
+never actually taught. Not re-designed here to avoid the same
+architecture being derived slightly differently in every `*-practice`
+README - the shared design lives in one place and every sibling skill
+points back to it.
