@@ -45,9 +45,17 @@ from ovos_skill_geography import (
     country_name,
     capital_entry,
     region_name,
+    resolve_area,
+    countries_in_area,
+    render_country_overview,
 )
 
 NUM_QUIZ_QUESTIONS = 5
+# Cap on how many countries a single "teach me about {region}" round
+# recites - Europe alone has ~44 countries, and reciting all of them
+# in one go would be a very long, low-value monologue. 10 mirrors
+# ovos-skill-math-practice's table size (a times table is 10 rows).
+TEACH_MAX_COUNTRIES = 10
 
 
 def generate_border_question(country_codes=None):
@@ -75,6 +83,13 @@ def generate_border_question(country_codes=None):
 
 
 class GeographyPractice(OVOSSkill):
+
+    def initialize(self):
+        # Session-only, not persisted across restarts - same
+        # deliberate v1 scoping choice as ovos-skill-math-practice's
+        # _taught_facts (see its README "Shared pattern: teach-then-
+        # practice").
+        self._taught_countries = []
 
     def _ask_and_grade_capital(self, cca3):
         name = country_name(cca3, self.lang)
@@ -158,3 +173,77 @@ class GeographyPractice(OVOSSkill):
     @intent_handler("quiz_borders.intent")
     def handle_quiz_borders(self, message):
         self._run_borders_quiz()
+
+    # ------------------------------------------------------------------
+    # Teach-then-practice (see README "Teach-then-practice" and
+    # ovos-skill-math-practice issue #1 for the shared pattern this
+    # follows)
+    # ------------------------------------------------------------------
+
+    def _teach_countries(self, cca3_list):
+        """Speaks each country's combined continent+capital+borders
+        overview in turn (render_country_overview(), shared with
+        ovos-skill-geography's own 'tell me about X' fact intent -
+        this repo carries its own copy of the about_country*.dialog
+        WORDING for self.resources.load_dialog_file() to find, but
+        the LOGIC of what data goes into it lives in one place).
+        Offers 'repeat' before moving to the next country, and
+        records exactly which countries were presented so the
+        follow-up quiz asks about them - and only them."""
+        self._taught_countries = []
+        for idx, cca3 in enumerate(cca3_list):
+            dialog_name, data = render_country_overview(cca3, self.lang)
+            rendered = self.resources.load_dialog_file(dialog_name, data)[0]
+            self.speak(rendered, wait=True)
+            self._taught_countries.append(cca3)
+
+            if idx == len(cca3_list) - 1:
+                break
+            response = self.get_response(dialog="continue_teaching_prompt")
+            if response and self.voc_match(response, "repeat"):
+                self.speak(rendered, wait=True)
+
+        self.speak_dialog("teaching_finished", {"count": len(self._taught_countries)})
+
+    @intent_handler("teach_me.intent")
+    def handle_teach_me(self, message):
+        region_raw = message.data.get("region")
+        resolved = resolve_area(region_raw, self.lang)
+        if resolved is None:
+            self.speak_dialog("region_not_understood", {"region": region_raw or ""})
+            return
+        kind, key = resolved
+        codes = list(countries_in_area(kind, key))
+        if len(codes) > TEACH_MAX_COUNTRIES:
+            codes = random.sample(codes, TEACH_MAX_COUNTRIES)
+        else:
+            random.shuffle(codes)
+        self._teach_countries(codes)
+
+    @intent_handler("quiz_taught.intent")
+    def handle_quiz_taught(self, message):
+        """Quizzes ONLY on the recorded taught countries (not
+        NUM_QUIZ_QUESTIONS=5) - for each one, a RANDOMLY chosen topic
+        (capital/continent/border), reusing the exact same grading
+        methods the regular per-topic quizzes use. For the border
+        topic, generate_border_question(country_codes=[cca3]) forces
+        the question to be ABOUT that taught country while still
+        drawing the yes/no comparison country from the full universe,
+        same true/false-pair construction as the regular border quiz."""
+        if not self._taught_countries:
+            self.speak_dialog("nothing_taught_yet")
+            return
+        correct_count = 0
+        total = len(self._taught_countries)
+        for cca3 in self._taught_countries:
+            topic = random.choice(["capital", "continent", "border"])
+            if topic == "capital":
+                ok = self._ask_and_grade_capital(cca3)
+            elif topic == "continent":
+                ok = self._ask_and_grade_continent(cca3)
+            else:
+                _, other_cca3, is_true = generate_border_question(country_codes=[cca3])
+                ok = self._ask_and_grade_border(cca3, other_cca3, is_true)
+            if ok:
+                correct_count += 1
+        self.speak_dialog("quiz_finished", {"correct": correct_count, "total": total})

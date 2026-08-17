@@ -6,13 +6,13 @@
   "license": "GPL-3.0-or-later",
   "author": "andlo",
   "name": "Geografietraining",
-  "description": "Geografietraining - Fakten und Quiz zu Hauptstädten, Kontinenten und Landesgrenzen für 194 UN-Mitgliedstaaten. Vollständig offline.",
+  "description": "Geografietraining - Quiz und Lehr-dann-üben für Hauptstädte, Kontinente und Landesgrenzen für 194 UN-Mitgliedstaaten. Vollständig offline.",
   "examples": [
-    "was ist die hauptstadt von Frankreich",
-    "auf welchem kontinent liegt Kenia",
-    "welche länder grenzen an Deutschland",
     "quiz mich zu hauptstädten",
-    "quiz mich zu landesgrenzen"
+    "quiz mich zu kontinenten",
+    "quiz mich zu landesgrenzen",
+    "bring mir etwas über Europa bei",
+    "quiz mich zu dem was du mir beigebracht hast"
   ],
   "tags": [
     "geografie",

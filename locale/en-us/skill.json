@@ -6,13 +6,13 @@
   "license": "GPL-3.0-or-later",
   "author": "andlo",
   "name": "Geography Practice",
-  "description": "Geography practice - capitals, continents, and country-border facts and quizzes across 194 UN member states. Fully offline.",
+  "description": "Geography practice - quizzes and teach-then-practice for capitals, continents, and country borders across 194 UN member states. Fully offline.",
   "examples": [
-    "what is the capital of France",
-    "what continent is Kenya in",
-    "what countries border Germany",
     "quiz me on capitals",
-    "quiz me on country borders"
+    "quiz me on continents",
+    "quiz me on country borders",
+    "teach me about Europe",
+    "quiz me on what you taught me"
   ],
   "tags": [
     "geography",

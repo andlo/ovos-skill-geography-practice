@@ -6,13 +6,13 @@
   "license": "GPL-3.0-or-later",
   "author": "andlo",
   "name": "Entraînement de géographie",
-  "description": "Entraînement de géographie - faits et quiz sur les capitales, continents et frontières de 194 États membres de l'ONU. Entièrement hors ligne.",
+  "description": "Entraînement de géographie - quiz et apprentissage des capitales, continents et frontières de 194 États membres de l'ONU. Entièrement hors ligne.",
   "examples": [
-    "quelle est la capitale de la France",
-    "sur quel continent se trouve le Kenya",
-    "quels pays bordent l'Allemagne",
     "interroge-moi sur les capitales",
-    "interroge-moi sur les frontières"
+    "interroge-moi sur les continents",
+    "interroge-moi sur les frontières",
+    "apprends-moi l'Europe",
+    "interroge-moi sur ce que tu m'as appris"
   ],
   "tags": [
     "géographie",

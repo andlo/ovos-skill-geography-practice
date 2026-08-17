@@ -6,13 +6,13 @@
   "license": "GPL-3.0-or-later",
   "author": "andlo",
   "name": "Geografitræning",
-  "description": "Geografitræning - fakta og quizzer om hovedstæder, kontinenter og landegrænser for 194 FN-medlemslande. Fuldstændig offline.",
+  "description": "Geografitræning - quizzer og undervisning i hovedstæder, kontinenter og landegrænser for 194 FN-medlemslande. Fuldstændig offline.",
   "examples": [
-    "hvad er hovedstaden i Frankrig",
-    "hvilket kontinent er Kenya i",
-    "hvilke lande grænser op til Tyskland",
     "quiz mig i hovedstæder",
-    "quiz mig i landegrænser"
+    "quiz mig i kontinenter",
+    "quiz mig i landegrænser",
+    "lær mig om Europa",
+    "quiz mig i det du lærte mig"
   ],
   "tags": [
     "geografi",

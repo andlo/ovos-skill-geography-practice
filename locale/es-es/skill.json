@@ -6,13 +6,13 @@
   "license": "GPL-3.0-or-later",
   "author": "andlo",
   "name": "Entrenamiento de geografía",
-  "description": "Entrenamiento de geografía - datos y cuestionarios sobre capitales, continentes y fronteras de 194 estados miembros de la ONU. Totalmente sin conexión.",
+  "description": "Entrenamiento de geografía - cuestionarios y aprendizaje de capitales, continentes y fronteras de 194 estados miembros de la ONU. Totalmente sin conexión.",
   "examples": [
-    "cuál es la capital de Francia",
-    "en qué continente está Kenia",
-    "qué países limitan con Alemania",
     "pregúntame sobre capitales",
-    "pregúntame sobre fronteras"
+    "pregúntame sobre continentes",
+    "pregúntame sobre fronteras",
+    "enséñame sobre Europa",
+    "pregúntame sobre lo que me enseñaste"
   ],
   "tags": [
     "geografía",

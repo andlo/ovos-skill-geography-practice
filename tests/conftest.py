@@ -26,4 +26,5 @@ def skill(monkeypatch):
     s.res_dir = str(Path(__file__).resolve().parents[1])
     s._lang_resources = {}
     s._voc_cache = {}  # needed by voc_match()/voc_list(), bypassed by __new__()
+    s._taught_countries = []  # normally set by initialize(), which __new__() bypasses
     return s
