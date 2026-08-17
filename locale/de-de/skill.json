@@ -1,0 +1,25 @@
+{
+  "skill_id": "ovos-skill-geography-practice.andlo",
+  "source": "https://github.com/andlo/ovos-skill-geography-practice",
+  "package_name": "ovos-skill-geography-practice",
+  "pip_spec": "ovos-skill-geography-practice",
+  "license": "GPL-3.0-or-later",
+  "author": "andlo",
+  "name": "Geografietraining",
+  "description": "Geografietraining - Fakten und Quiz zu Hauptstädten, Kontinenten und Landesgrenzen für 194 UN-Mitgliedstaaten. Vollständig offline.",
+  "examples": [
+    "was ist die hauptstadt von Frankreich",
+    "auf welchem kontinent liegt Kenia",
+    "welche länder grenzen an Deutschland",
+    "quiz mich zu hauptstädten",
+    "quiz mich zu landesgrenzen"
+  ],
+  "tags": [
+    "geografie",
+    "bildung",
+    "hauptstädte",
+    "quiz",
+    "kinder"
+  ],
+  "icon": "https://raw.githubusercontent.com/andlo/ovos-skill-geography-practice/main/icon.png"
+}

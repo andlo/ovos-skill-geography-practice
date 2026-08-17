@@ -1,0 +1,25 @@
+{
+  "skill_id": "ovos-skill-geography-practice.andlo",
+  "source": "https://github.com/andlo/ovos-skill-geography-practice",
+  "package_name": "ovos-skill-geography-practice",
+  "pip_spec": "ovos-skill-geography-practice",
+  "license": "GPL-3.0-or-later",
+  "author": "andlo",
+  "name": "Geography Practice",
+  "description": "Geography practice - capitals, continents, and country-border facts and quizzes across 194 UN member states. Fully offline.",
+  "examples": [
+    "what is the capital of France",
+    "what continent is Kenya in",
+    "what countries border Germany",
+    "quiz me on capitals",
+    "quiz me on country borders"
+  ],
+  "tags": [
+    "geography",
+    "education",
+    "capitals",
+    "quiz",
+    "kids"
+  ],
+  "icon": "https://raw.githubusercontent.com/andlo/ovos-skill-geography-practice/main/icon.png"
+}

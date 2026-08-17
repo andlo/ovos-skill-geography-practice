@@ -1,0 +1,25 @@
+{
+  "skill_id": "ovos-skill-geography-practice.andlo",
+  "source": "https://github.com/andlo/ovos-skill-geography-practice",
+  "package_name": "ovos-skill-geography-practice",
+  "pip_spec": "ovos-skill-geography-practice",
+  "license": "GPL-3.0-or-later",
+  "author": "andlo",
+  "name": "Geografitræning",
+  "description": "Geografitræning - fakta og quizzer om hovedstæder, kontinenter og landegrænser for 194 FN-medlemslande. Fuldstændig offline.",
+  "examples": [
+    "hvad er hovedstaden i Frankrig",
+    "hvilket kontinent er Kenya i",
+    "hvilke lande grænser op til Tyskland",
+    "quiz mig i hovedstæder",
+    "quiz mig i landegrænser"
+  ],
+  "tags": [
+    "geografi",
+    "undervisning",
+    "hovedstæder",
+    "quiz",
+    "børn"
+  ],
+  "icon": "https://raw.githubusercontent.com/andlo/ovos-skill-geography-practice/main/icon.png"
+}

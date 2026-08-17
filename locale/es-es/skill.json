@@ -1,0 +1,25 @@
+{
+  "skill_id": "ovos-skill-geography-practice.andlo",
+  "source": "https://github.com/andlo/ovos-skill-geography-practice",
+  "package_name": "ovos-skill-geography-practice",
+  "pip_spec": "ovos-skill-geography-practice",
+  "license": "GPL-3.0-or-later",
+  "author": "andlo",
+  "name": "Entrenamiento de geografía",
+  "description": "Entrenamiento de geografía - datos y cuestionarios sobre capitales, continentes y fronteras de 194 estados miembros de la ONU. Totalmente sin conexión.",
+  "examples": [
+    "cuál es la capital de Francia",
+    "en qué continente está Kenia",
+    "qué países limitan con Alemania",
+    "pregúntame sobre capitales",
+    "pregúntame sobre fronteras"
+  ],
+  "tags": [
+    "geografía",
+    "educación",
+    "capitales",
+    "quiz",
+    "niños"
+  ],
+  "icon": "https://raw.githubusercontent.com/andlo/ovos-skill-geography-practice/main/icon.png"
+}
