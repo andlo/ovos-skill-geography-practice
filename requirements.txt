@@ -1,4 +1,1 @@
-# No special runtime dependencies - country/capital/region data is
-# bundled as static JSON (see data/), no external lookups or parsing
-# libraries needed. ovos-workshop itself is provided by the platform,
-# same as ovos-skill-math-practice's requirements.txt convention.
+ovos-skill-geography>=0.0.1
