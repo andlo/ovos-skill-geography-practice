@@ -30,6 +30,10 @@ def test_stop_ends_the_quiz_in_that_session(skill):
     said = [c[0][0] for c in skill.speak_dialog.call_args_list]
     assert "quiz_finished" not in said and "quiz_no_answer" not in said
     assert not skill.can_stop(_msg("s1"))
+    aborts = [c[0][0] for c in skill.bus.emit.call_args_list
+              if c[0][0].msg_type == "mycroft.skills.abort_question"]
+    assert len(aborts) == 1 and aborts[0].data["skill_id"] == skill.skill_id
+    assert aborts[0].context["session"]["session_id"] == "s1"
 
 
 def test_nothing_to_stop_when_idle(skill):
