@@ -35,6 +35,11 @@ open-ended).
 
 import random
 
+import functools
+import threading
+
+from ovos_bus_client.message import Message
+from ovos_bus_client.session import SessionManager
 from ovos_workshop.skills import OVOSSkill
 from ovos_workshop.decorators import intent_handler
 
@@ -82,7 +87,91 @@ def generate_border_question(country_codes=None):
     return cca3, other, False
 
 
+class QuizStopped(Exception):
+    """Raised inside a quiz or lesson once "stop" was requested for its
+    session, so the question loop ends instead of asking the next one."""
+
+
+def _session_id(message):
+    try:
+        return SessionManager.get(message).session_id
+    except Exception:  # no usable session in the message
+        return "default"
+
+
+def stoppable(handler):
+    """Marks an intent handler as stoppable: while it runs, can_stop()
+    answers True for its session, and a stop for that session makes the
+    next (or current) question end the handler quietly."""
+    @functools.wraps(handler)
+    def wrapper(self, message):
+        sid = _session_id(message)
+        state = self._stop_state()
+        state["active"].add(sid)
+        state["requested"].discard(sid)
+        state["local"].sid = sid
+        try:
+            return handler(self, message)
+        except QuizStopped:
+            self.log.info(f"stopped in session {sid}")
+        finally:
+            state["active"].discard(sid)
+            state["requested"].discard(sid)
+            state["local"].sid = None
+    return wrapper
+
+
 class GeographyPractice(OVOSSkill):
+
+
+    # ------------------------------------------------------------------
+    # Stop support (session-scoped)
+    # ------------------------------------------------------------------
+
+    def _stop_state(self):
+        state = self.__dict__.get("_stop_state_data")
+        if state is None:
+            state = {"active": set(), "requested": set(), "local": threading.local()}
+            self.__dict__["_stop_state_data"] = state
+        return state
+
+    def _raise_if_stopped(self):
+        state = self._stop_state()
+        sid = getattr(state["local"], "sid", None)
+        if sid is not None and sid in state["requested"]:
+            raise QuizStopped()
+
+    def _ask(self, *args, **kwargs):
+        """get_response() that ends the quiz/lesson once stop was
+        requested - before asking, and after the (then aborted) wait."""
+        self._raise_if_stopped()
+        response = self.get_response(*args, **kwargs)
+        self._raise_if_stopped()
+        return response
+
+    def can_stop(self, message) -> bool:
+        return _session_id(message) in self._stop_state()["active"]
+
+    def stop_session(self, session) -> bool:
+        state = self._stop_state()
+        if session.session_id in state["active"]:
+            state["requested"].add(session.session_id)
+            # End a get_response() that is waiting right now. Setting the
+            # response to None (what workshop does after a successful stop)
+            # is not enough on ovos-workshop 7.x: the wait loop keeps going.
+            # abort_question is the supported way on 7.x and 9.x alike.
+            self.bus.emit(Message("mycroft.skills.abort_question",
+                                  {"skill_id": self.skill_id},
+                                  {"session": session.serialize(),
+                                   "skill_id": self.skill_id}))
+            # ovos-workshop 7.x: after the wait is aborted, get_response()
+            # keeps polling its validated answer, which is still [] - so it
+            # never returns. None is what workshop itself sets on "cancel".
+            validated = getattr(self, "_OVOSSkill__validated_responses", None)
+            if isinstance(validated, dict):
+                validated[session.session_id] = None
+            return True
+        return False
 
     def initialize(self):
         # Session-only, not persisted across restarts - same
@@ -94,7 +183,7 @@ class GeographyPractice(OVOSSkill):
     def _ask_and_grade_capital(self, cca3):
         name = country_name(cca3, self.lang)
         entry = capital_entry(cca3, self.lang)
-        response = self.get_response(dialog="quiz_question_capital", data={"country": name})
+        response = self._ask(dialog="quiz_question_capital", data={"country": name})
         if response is None:
             self.speak_dialog("quiz_no_answer")
             return False
@@ -109,7 +198,7 @@ class GeographyPractice(OVOSSkill):
     def _ask_and_grade_continent(self, cca3):
         name = country_name(cca3, self.lang)
         continent = region_name(CORE_DATA[cca3]["region"], self.lang)
-        response = self.get_response(dialog="quiz_question_continent", data={"country": name})
+        response = self._ask(dialog="quiz_question_continent", data={"country": name})
         if response is None:
             self.speak_dialog("quiz_no_answer")
             return False
@@ -122,7 +211,7 @@ class GeographyPractice(OVOSSkill):
     def _ask_and_grade_border(self, cca3, other_cca3, is_true):
         name = country_name(cca3, self.lang)
         other_name = country_name(other_cca3, self.lang)
-        response = self.get_response(dialog="quiz_question_border", data={
+        response = self._ask(dialog="quiz_question_border", data={
             "country": name, "other": other_name})
         if response is None:
             self.speak_dialog("quiz_no_answer")
@@ -163,14 +252,17 @@ class GeographyPractice(OVOSSkill):
         self.speak_dialog("quiz_finished", {"correct": correct_count, "total": NUM_QUIZ_QUESTIONS})
 
     @intent_handler("quiz_capitals.intent")
+    @stoppable
     def handle_quiz_capitals(self, message):
         self._run_capitals_quiz()
 
     @intent_handler("quiz_continents.intent")
+    @stoppable
     def handle_quiz_continents(self, message):
         self._run_continents_quiz()
 
     @intent_handler("quiz_borders.intent")
+    @stoppable
     def handle_quiz_borders(self, message):
         self._run_borders_quiz()
 
@@ -199,13 +291,14 @@ class GeographyPractice(OVOSSkill):
 
             if idx == len(cca3_list) - 1:
                 break
-            response = self.get_response(dialog="continue_teaching_prompt")
+            response = self._ask(dialog="continue_teaching_prompt")
             if response and self.voc_match(response, "repeat"):
                 self.speak(rendered, wait=True)
 
         self.speak_dialog("teaching_finished", {"count": len(self._taught_countries)})
 
     @intent_handler("teach_me.intent")
+    @stoppable
     def handle_teach_me(self, message):
         region_raw = message.data.get("region")
         resolved = resolve_area(region_raw, self.lang)
@@ -221,6 +314,7 @@ class GeographyPractice(OVOSSkill):
         self._teach_countries(codes)
 
     @intent_handler("quiz_taught.intent")
+    @stoppable
     def handle_quiz_taught(self, message):
         """Quizzes ONLY on the recorded taught countries (not
         NUM_QUIZ_QUESTIONS=5) - for each one, a RANDOMLY chosen topic
