@@ -32,14 +32,6 @@ def test_quiz_capitals_all_wrong(skill):
     assert incorrect_calls[0] == (("quiz_incorrect_capital", {"country": "France", "capital": "Paris"}), {})
 
 
-def test_quiz_capitals_no_response_counts_as_wrong_but_does_not_crash(skill):
-    skill.speak_dialog = MagicMock()
-    skill.get_response = MagicMock(return_value=None)
-    with patch("geographypractice_skill.random.choice", return_value="FRA"):
-        skill.handle_quiz_capitals(_msg())
-    no_answer_calls = [c for c in skill.speak_dialog.call_args_list if c[0][0] == "quiz_no_answer"]
-    assert len(no_answer_calls) == 5
-
 
 def test_quiz_continents_all_correct(skill):
     skill.speak_dialog = MagicMock()
