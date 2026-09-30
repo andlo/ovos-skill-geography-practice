@@ -26,5 +26,8 @@ def skill(monkeypatch):
     s.res_dir = str(Path(__file__).resolve().parents[1])
     s._lang_resources = {}
     s._voc_cache = {}  # needed by voc_match()/voc_list(), bypassed by __new__()
+    # ovos-workshop >= 9.8 auto-registers entity files on load_lang(); needs
+    # attributes that __new__() bypasses, and there are no entity files here
+    monkeypatch.setattr(GeographyPractice, "_auto_register_entity_files", lambda *a, **k: None, raising=False)
     s._taught_countries = []  # normally set by initialize(), which __new__() bypasses
     return s
