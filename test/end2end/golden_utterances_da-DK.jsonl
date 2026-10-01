@@ -1,0 +1,12 @@
+{"utterance": "quiz mig i landegrænser", "lang": "da-DK", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "quiz_borders"}
+{"utterance": "test mig i landegrænser", "lang": "da-DK", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "quiz_borders"}
+{"utterance": "quiz mig i grænser", "lang": "da-DK", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "quiz_borders"}
+{"utterance": "quiz mig i hovedstæder", "lang": "da-DK", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "quiz_capitals"}
+{"utterance": "test mig i hovedstæder", "lang": "da-DK", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "quiz_capitals"}
+{"utterance": "quiz mig i kontinenter", "lang": "da-DK", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "quiz_continents"}
+{"utterance": "quiz mig i verdensdele", "lang": "da-DK", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "quiz_continents"}
+{"utterance": "test mig i kontinenter", "lang": "da-DK", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "quiz_continents"}
+{"utterance": "quiz mig i det du lærte mig", "lang": "da-DK", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "quiz_taught"}
+{"utterance": "quiz mig i det jeg lige lærte", "lang": "da-DK", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "quiz_taught"}
+{"utterance": "lær mig om Afrika", "lang": "da-DK", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "teach_me"}
+{"utterance": "lær mig geografi for Amerika", "lang": "da-DK", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "teach_me"}

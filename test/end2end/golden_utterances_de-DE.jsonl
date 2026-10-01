@@ -1,0 +1,10 @@
+{"utterance": "quiz mich zu landesgrenzen", "lang": "de-DE", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "quiz_borders"}
+{"utterance": "teste mich zu landesgrenzen", "lang": "de-DE", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "quiz_borders"}
+{"utterance": "quiz mich zu hauptstädten", "lang": "de-DE", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "quiz_capitals"}
+{"utterance": "teste mich zu hauptstädten", "lang": "de-DE", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "quiz_capitals"}
+{"utterance": "quiz mich zu kontinenten", "lang": "de-DE", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "quiz_continents"}
+{"utterance": "teste mich zu kontinenten", "lang": "de-DE", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "quiz_continents"}
+{"utterance": "quiz mich zu dem was du mir beigebracht hast", "lang": "de-DE", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "quiz_taught"}
+{"utterance": "quiz mich zu dem was ich gerade gelernt habe", "lang": "de-DE", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "quiz_taught"}
+{"utterance": "bring mir etwas über Afrika bei", "lang": "de-DE", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "teach_me"}
+{"utterance": "lehre mich geografie für Amerika", "lang": "de-DE", "skill_id": "ovos-skill-geography-practice.andlo", "intent_label": "teach_me"}
